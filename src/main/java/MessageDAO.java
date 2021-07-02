@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MessageDAO {
@@ -25,16 +26,54 @@ public class MessageDAO {
         }
     }
 
-    public static void readMensajeDB() {
+    public static void readMessageDB() {
+        DBConnection dbconn = new DBConnection();
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try(Connection conexion = dbconn.getConnection())  {
+            String query="SELECT * FROM messages";
+            ps=conexion.prepareStatement(query);
+            rs=ps.executeQuery();
+
+            while(rs.next()){
+                System.out.println("ID: "+rs.getInt("idMessage"));
+                System.out.println("Message: "+rs.getString("message"));
+                System.out.println("Author: "+rs.getString("author"));
+                System.out.println("Date: "+rs.getString("date"));
+                System.out.println("");
+            }
+        }catch(SQLException e){
+            System.out.println("Could not retrieve messages.");
+            System.out.println(e);
+        }
+    }
+
+    public static void updateMessageDB(Message message) {
 
     }
 
-    public static void updateMensajeDB(int idMensaje) {
+    public static void deleteMessageDB(int idMessage) {
+        DBConnection dbconn = new DBConnection();
 
-    }
+        try(Connection conn = dbconn.getConnection())  {
+            PreparedStatement ps = null;
 
-    public static void deleteMensajeDB(Message msj) {
+            try {
+                String query="DELETE FROM messages WHERE idMessage = ?";
+                ps = conn.prepareStatement(query);
+                ps.setInt(1, idMessage);
+                ps.executeUpdate();
+                System.out.println("Message has been deleted");
+            }catch(SQLException e) {
+                System.out.println(e);
+                System.out.println("Could not delete message.");
+            }
 
+        }catch(SQLException e){
+            System.out.println(e);
+        }
     }
 
 }
