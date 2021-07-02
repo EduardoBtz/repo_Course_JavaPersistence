@@ -51,7 +51,25 @@ public class MessageDAO {
     }
 
     public static void updateMessageDB(Message message) {
+        DBConnection dbconn = new DBConnection();
 
+        try(Connection conn = dbconn.getConnection())  {
+            PreparedStatement ps = null;
+
+            try{
+                String query="UPDATE message SET message = ? WHERE idMessage = ?";
+                ps = conn.prepareStatement(query);
+                ps.setString(1, message.getMessage());
+                ps.setInt(2, message.getIdMessage());
+                ps.executeUpdate();
+                System.out.println("Message was updated correctly.");
+            }catch(SQLException ex){
+                System.out.println(ex);
+                System.out.println("Could not update message.");
+            }
+        }catch(SQLException e){
+            System.out.println(e);
+        }
     }
 
     public static void deleteMessageDB(int idMessage) {
