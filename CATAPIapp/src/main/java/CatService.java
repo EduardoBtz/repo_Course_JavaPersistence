@@ -174,4 +174,22 @@ public class CatService {
         }
 
     }
+
+    public static void borrarFavorito(GatosFav gatofav){
+        try{
+            OkHttpClient client = new OkHttpClient();
+
+            Request request = new Request.Builder()
+                    .url("https://api.thecatapi.com/v1/favourites/"+gatofav.getId()+"")
+                    .delete(null)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("x-api-key", gatofav.getApikey())
+                    .build();
+
+            Response response = client.newCall(request).execute();
+        }catch(IOException e){
+            System.out.println(e);
+        }
+
+    }
 }
