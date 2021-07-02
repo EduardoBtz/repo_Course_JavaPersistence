@@ -3,7 +3,7 @@ import java.sql.DriverManager;
 
 public class DBConnection {
 
-    public static void main(String[] args) {
+    public Connection getConnection(){
         Connection connection = null;
 
         try {
@@ -11,5 +11,7 @@ public class DBConnection {
         }catch(Exception e) {
             System.out.println(e);
         }
+
+        return connection;
     }
 }
