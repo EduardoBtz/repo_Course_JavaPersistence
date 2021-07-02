@@ -42,13 +42,42 @@ public class CatService {
                 Image modificada = fondo.getScaledInstance(800, 600, java.awt.Image.SCALE_SMOOTH);
                 catBackground = new ImageIcon(modificada);
             }
+
+            String menu = "Options: \n"
+                    + " 1. Look at another image\n"
+                    + " 2. Favorite \n"
+                    + " 3. Return \n";
+
+            String[] botones = { "ver otra imagen", "favorito", "volver" };
+            int idCat = cats.getId();
+            String opcion = (String) JOptionPane.showInputDialog(null,menu,id_gato, JOptionPane.INFORMATION_MESSAGE, fondoGato, botones,botones[0]);
+
+            int seleccion = -1;
+            //validamos que opcion selecciona el usuario
+            for(int i=0;i<botones.length;i++){
+                if(opcion.equals(botones[i])){
+                    seleccion = i;
+                }
+            }
+
+            switch (seleccion){
+                case 0:
+                    seeCats();
+                    break;
+                case 1:
+                    favoriteCat(cats);
+                    break;
+                default:
+                    break;
+            }
+
         }catch(IOException e) {
             System.out.println(e);
         }
 
     }
 
-    public CatService() {
+    public static void favoriteCat(Cat cat) {
 
     }
 }
